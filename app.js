@@ -21,10 +21,23 @@
 class GroceryListItem extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      done: false
+    };
   };
+
+  onListItemClick() {
+    this.setState({
+      done: !this.state.done
+    });
+  };
+
   render() {
+    var style = {
+      fontWeight: this.state.done ? 'bold' : 'normal'
+    };
     return (
-      <li>{this.props.groceryItem}</li>
+      <li style={style} onMouseEnter={this.onListItemClick.bind(this)} onMouseLeave={this.onListItemClick.bind(this)}>{this.props.groceryItem}</li>
     );
   };
 }
@@ -33,20 +46,11 @@ var GroceryList = (props) => (
   <div>
     <h2>Grocery List</h2>
     <ul>
-      {props.groceryItems.map(groceryItem =>
-        <GroceryListItem groceryItem = {groceryItem} />
+      {props.groceryItems.map((groceryItem, key) =>
+        <GroceryListItem groceryItem={groceryItem} key={key}/>
       )}
-      {/* <GroceryListItem groceryItems = {['牛乳4本', '半熟卵2パック']}/> */}
     </ul>
   </div>
 );
 
-var App = () => (
-  <div>
-    <h2>Grocery List</h2>
-    <GroceryListItem groceryItems = {['牛乳4本', '半熟卵2パック']}/>
-  </div>
-);
-
-ReactDOM.render(<App />, document.getElementById('app'));
-
+ReactDOM.render(<GroceryList groceryItems = {['牛乳4本', '半熟卵2パック']}/>, document.getElementById('app'));
